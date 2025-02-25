@@ -1,0 +1,22 @@
+# Python StreamingAPI example
+### Install Python 3
+```brew install python@3.13``` </br>
+Add the following line to the end of your profile or bash_profile or .zshrc </br>
+```export PATH="/usr/local/opt/python/libexec/bin:$PATH"``` </br>
+Now you can check that it's installed and the path is setup using the following command. </br>
+```python3 --version``` </br>
+You may need to restart the terminal. </br>
+
+### Starting the application:
+#### 1. Replace ClientID and ClientSecret with your organizations values
+```The values you need to replace can be found near the top of main.py```
+##### THESE VALUES SHOULD BE KEPT SECRET!
+```If you copy this code these values should be moved to a protected file that is included in your .gitignore```
+#### 2. Create venv
+```python3 -m venv venv```
+#### 3. Activate venv 
+```source venv/bin/activate```
+#### 4. Install libraries 
+```pip install -r requirements.txt```
+#### 5. Start application
+```python3 main.py```
