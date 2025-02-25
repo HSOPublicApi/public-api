@@ -7,8 +7,6 @@ Now you can check that it's installed and the path is setup using the following 
 ```python3 --version``` </br>
 You may need to restart the terminal. </br>
 
-### Install Pip
-
 ### Starting the application:
 #### 1. Replace ClientID and ClientSecret with your organizations values
 ```The values you need to replace can be found near the top of main.py```
