@@ -1,0 +1,12 @@
+# Python StreamingAPI example
+### Starting the application:
+#### 1. Replace ClientID and ClientSecret with your organizations values
+```The values you need to replace can be found near the top of main.py```
+##### THESE VALUES SHOULD BE KEPT SECRET!
+```If you copy this code these values should be moved to a protected file that is included in your .gitignore```
+#### 2. Install libraries 
+```pip install -r requirements.txt```
+#### 3. Activate venv 
+```source venv/bin/activate```
+#### 4. Start application
+```python3 main.py```
