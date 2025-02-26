@@ -15,9 +15,9 @@ python3 --version
 ```
 
 ## Starting the application for the first time:
-1. Replace **clientId** and **clientSecret** with your organizations values
+1. Replace $${\color{orange}clientId}$$ and $${\color{orange}clientSecret}$$ with your organizations values
   * The values you need to replace can be found near the top of main.py
-  * **THESE VALUES SHOULD BE KEPT SECRET!**
+  * $${\color{orange}THESE \space VALUES \space SHOULD \space BE \space KEPT \space SECRET!}$$
   * If you copy this code, these values should be moved to a protected file that is included in your .gitignore
 2. Create venv
 ```bash
