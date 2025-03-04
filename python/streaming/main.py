@@ -13,10 +13,10 @@ clientId = "<clientId>" # Replace <clientId> with your client ID
 clientSecret = "<clientSecret>" # Replace <clientSecret> with your client secret
 
 def printResponse(requestName, response):
+    print()
     print(requestName)
     print("status code: " + str(response.status_code))
     print(json.dumps(response.json(), indent = 2))
-    print()
 
 def getAccessToken():
     url = baseUrl + "/oauth/client_credential/accesstoken?grant_type=client_credentials"
@@ -49,6 +49,8 @@ async def messageCallback(message: AbstractIncomingMessage) -> None:
         print()
         print("Routing key:")
         print(message.routing_key)
+        print("Message headers:")
+        print(message.headers)
         print("Message body:")
         jsonBody = json.loads(str(message.body, 'utf-8'))
         print(jsonBody)
