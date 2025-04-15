@@ -3,13 +3,13 @@ import json
 
 baseUrl = "https://prod.hs1api.com" # Henry Schein One base URL
 
-patientId = "7000001073763"; # Replace 1234 with a patient ID
-organizationId = "5c8958ef64c9477daadf664e" # Replace 1234 with your organization ID
+patientId = "1234"; # Replace 1234 with a patient ID
+organizationId = "1234" # Replace 1234 with your organization ID
 
 # THESE VALUES SHOULD BE KEPT SECRET!
 # Move them to a protected file and don't push them up to a repository
-clientId = "UdArrpgRkmpwH0exMmKSR2T9h3VBuke6" # Replace <clientId> with your client ID
-clientSecret = "hUbfw2juznfhYdKF" # Replace <clientSecret> with your client secret
+clientId = "<clientId>" # Replace <clientId> with your client ID
+clientSecret = "<clientSecret>" # Replace <clientSecret> with your client secret
 
 def printResponse(requestName, response):
     print()
