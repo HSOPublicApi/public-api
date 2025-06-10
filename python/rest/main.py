@@ -5,7 +5,6 @@ import locations
 import patients
 import operatories
 import providers
-
 organizationId = "1234" # Replace 1234 with your organization ID
 
 # THESE VALUES SHOULD BE KEPT SECRET!
