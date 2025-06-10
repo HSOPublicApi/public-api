@@ -45,3 +45,6 @@ source venv/bin/activate
 ```bash
 python3 main.py
 ```
+3. To run the patient procedures examples
+```bash
+python3 patientprocedures_example.py
