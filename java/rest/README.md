@@ -18,10 +18,24 @@ mvn -version
 ```
 
 ## Starting the application for the first time:
-1. Replace **clientId** and **clientSecret** with your organizations values
-   * The values you need to replace can be found in `src/main/resources/application.properties`
-   * **THESE VALUES SHOULD BE KEPT SECRET!**
-   * If you copy this code, these values should be moved to a protected file that is included in your .gitignore
+1. Set up your credentials:
+   * Create a `.env` file in the project root (this file should be in your .gitignore)
+   * Add your credentials to the `.env` file:
+   ```
+   # Required credentials
+   CLIENT_ID=your_client_id_here
+   CLIENT_SECRET=your_client_secret_here
+   ORGANIZATION_ID=your_organization_id_here
+   ```
+   * **NEVER commit credentials to version control!**
+   * The application will read these environment variables automatically
+   * For development, you can also set them directly in your terminal:
+   ```bash
+   export CLIENT_ID=your_client_id_here
+   export CLIENT_SECRET=your_client_secret_here
+   export ORGANIZATION_ID=your_organization_id_here
+   ```
+
 2. Build the application
 ```bash
 mvn clean package -DskipTests
