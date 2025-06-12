@@ -9,8 +9,8 @@ baseUrl = "https://prod.hs1api.com" # Henry Schein One base URL
 
 # THESE VALUES SHOULD BE KEPT SECRET!
 # Move them to a protected file and don't push them up to a repository
-clientId = "luGYcdHSaMDgd9TTZ40GsfrYSuTmGRJE" # Replace <clientId> with your client ID
-clientSecret = "XCXTWLNNsGZSgt4h" # Replace <clientSecret> with your client secret
+clientId = "<clientId>" # Replace <clientId> with your client ID
+clientSecret = "<clientSecret>" # Replace <clientSecret> with your client secret
 
 def printResponse(requestName, response):
     print()
@@ -82,7 +82,7 @@ async def connectToStreamingApi(loop):
         channel = await connection.channel()
 
         # Creating routing key
-        routingKey = "6806c3285542a18dca7a09d5.*.*.*" # This key will get all messages
+        routingKey = "*.*.*.*" # This key will get all messages
         # Routing key format: <OrganizationID>.<LocationID>.<Type>.<Method>
         # here are some other examples of routing keys to demonstrate how specific you can be
         # "1234.*.*.*" Get all messages for a specific organization
