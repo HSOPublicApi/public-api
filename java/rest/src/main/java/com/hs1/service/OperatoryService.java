@@ -2,7 +2,6 @@ package com.hs1.service;
 
 import com.hs1.model.ApiResponse;
 import com.hs1.model.Operatory;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -12,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,15 +26,31 @@ public class OperatoryService extends TemplateMethodService<Operatory> {
         this.serviceUrl = serviceUrl;
     }
 
-    @SneakyThrows
-    public List<Operatory> findAll() {
-        // Build the HTTP entity
-        HttpHeaders requestHeaders = new HttpHeaders(headers);
-        requestHeaders.add("Organization-ID", "5c8958ef64c9477daadf664e");
+    @Override
+    protected String getEntityName() {
+        return "Operatory";
+    }
+
+    @Override
+    protected Class<Operatory> getEntityClass() {
+        return Operatory.class;
+    }
+
+    /**
+     * Get operatories - matches Python's getOperatories function
+     * Uses custom logging due to large response size
+     */
+    public String getOperatories() {
+        // Build URL with pagination to limit results to 1 to avoid timeouts
+        String url = UriComponentsBuilder.fromHttpUrl(serviceUrl)
+                .queryParam("pageSize", MAX_PAGE_SIZE)
+                .toUriString();
+        
+        HttpHeaders requestHeaders = createRequestHeaders();
         HttpEntity<String> requestEntity = new HttpEntity<>(requestHeaders);
 
         ResponseEntity<ApiResponse<Operatory>> response = serviceTemplate.exchange(
-                serviceUrl,
+                url,
                 HttpMethod.GET,
                 requestEntity,
                 new ParameterizedTypeReference<ApiResponse<Operatory>>() {}
@@ -46,7 +62,12 @@ public class OperatoryService extends TemplateMethodService<Operatory> {
         ApiResponse<Operatory> body = response.getBody();
         List<Operatory> operatories = body != null ? body.getData() : Collections.emptyList();
 
-        return operatories;
+        if (!operatories.isEmpty()) {
+            String operatoryId = operatories.get(0).getId().toString();
+            log.info("Using Operatory ID: {}", operatoryId);
+            return operatoryId;
+        }
+        throw new RuntimeException("No operatories found");
     }
 
     private void logOperatoriesResponse(String operation, ResponseEntity<ApiResponse<Operatory>> response) {
@@ -68,14 +89,10 @@ public class OperatoryService extends TemplateMethodService<Operatory> {
         }
     }
 
-    @SneakyThrows
+    /**
+     * Legacy method for backward compatibility
+     */
     public String getOperatoryId() {
-        List<Operatory> operatories = findAll();
-        if (!operatories.isEmpty()) {
-            String operatoryId = operatories.get(0).getId().toString();
-            log.info("Using Operatory ID: {}", operatoryId);
-            return operatoryId;
-        }
-        throw new RuntimeException("No operatories found");
+        return getOperatories();
     }
 } 

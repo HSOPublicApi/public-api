@@ -1,7 +1,9 @@
 package com.hs1.service;
 
 import com.hs1.model.ApiResponse;
+import com.hs1.model.Transaction;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -10,8 +12,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import com.hs1.model.Transaction;
-import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
@@ -21,6 +21,16 @@ public class OrganizationService extends TemplateMethodService<Transaction> {
 		this.serviceTemplate = serviceTemplate;
 		this.headers = headers;
 		this.serviceUrl = serviceUrl;
+	}
+
+	@Override
+	protected String getEntityName() {
+		return "Organization";
+	}
+
+	@Override
+	protected Class<Transaction> getEntityClass() {
+		return Transaction.class;
 	}
 
 	@SneakyThrows
@@ -37,6 +47,6 @@ public class OrganizationService extends TemplateMethodService<Transaction> {
 		);
 
 		ApiResponse<Transaction> body = response.getBody();
-		return body != null && !body.getData().isEmpty() ? body.getData().getFirst() : null;
+		return body != null && !body.getData().isEmpty() ? body.getData().get(0) : null;
 	}
 }
