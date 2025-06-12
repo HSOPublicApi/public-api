@@ -11,10 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Main {
     private static final String BASE_URL = "https://prod.hs1api.com"; // Henry Schein One base URL
     
-    // THESE VALUES SHOULD BE KEPT SECRET!
-    // Move them to a protected file and don't push them up to a repository
-    private static final String CLIENT_ID = "0edR0DpRbN3mPpaokIPz0E9PtRE2ESYx"; // Using same credentials as REST example
-    private static final String CLIENT_SECRET = "7004ThEuFLRWuJEd"; // Using same credentials as REST example
+    // Get credentials from environment variables
+    private static final String CLIENT_ID = System.getenv().getOrDefault("CLIENT_ID", "<clientId>");
+    private static final String CLIENT_SECRET = System.getenv().getOrDefault("CLIENT_SECRET", "<clientSecret>");
     
     // Limit the number of messages to receive
     private static final int MAX_MESSAGES = 10;
@@ -26,7 +25,10 @@ public class Main {
     public static void main(String[] args) {
         try {
             if ("<clientId>".equals(CLIENT_ID) || "<clientSecret>".equals(CLIENT_SECRET)) {
-                System.out.println("Please replace <clientId> and <clientSecret> in Main.java");
+                System.out.println("Please set CLIENT_ID and CLIENT_SECRET environment variables");
+                System.out.println("Example:");
+                System.out.println("  export CLIENT_ID=your_client_id_here");
+                System.out.println("  export CLIENT_SECRET=your_client_secret_here");
                 return;
             }
             

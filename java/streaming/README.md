@@ -40,10 +40,18 @@ sudo yum install maven
 
 ## Starting the application for the first time:
 
-1. Replace $${\color{orange}clientId}$$ and $${\color{orange}clientSecret}$$ with your organization's values
-   * The values you need to replace can be found near the top of `Main.java`
-   * $${\color{orange}THESE \space VALUES \space SHOULD \space BE \space KEPT \space SECRET!}$$
-   * If you copy this code, these values should be moved to a protected file that is included in your `.gitignore`
+1. Set up your credentials:
+   * Set the required environment variables:
+   ```bash
+   export CLIENT_ID=your_client_id_here
+   export CLIENT_SECRET=your_client_secret_here
+   ```
+   * **NEVER commit credentials to version control!**
+   * For development, you can also create a `.env` file (make sure it's in your `.gitignore`):
+   ```
+   CLIENT_ID=your_client_id_here
+   CLIENT_SECRET=your_client_secret_here
+   ```
 
 2. Navigate to the streaming directory:
 ```bash
