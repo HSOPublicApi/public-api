@@ -24,7 +24,7 @@ def getPatientProcedures(headerData, pageSize=100, lastId=None):
         
     return response.json()
 
-def getAllPatientProcedures(headerData, pageSize=100):
+def getAllPatientProcedures(headerData, pageSize=100, max_batches=10):
     """
     Get all patient procedures by iterating through all pages using lastId cursor pagination
     """
@@ -79,6 +79,11 @@ def getAllPatientProcedures(headerData, pageSize=100):
             break
             
         batchNumber += 1
+        
+        # Check if we've reached the maximum number of batches
+        if batchNumber > max_batches:
+            print(f"\nReached maximum number of batches ({max_batches})")
+            break
     
     print(f"\n=== Total Procedures Retrieved: {len(allProcedures)} ===")
     return allProcedures
@@ -108,7 +113,7 @@ def getPatientProceduresByPatientId(headerData, patientId, pageSize=100, lastId=
         
     return response.json()
 
-def getAllPatientProceduresForPatient(headerData, patientId, pageSize=500):
+def getAllPatientProceduresForPatient(headerData, patientId, pageSize=500, max_batches=10):
     """
     Get ALL patient procedures for a specific patient using cursor pagination
     """
@@ -143,6 +148,11 @@ def getAllPatientProceduresForPatient(headerData, patientId, pageSize=500):
             break
             
         batchNumber += 1
+        
+        # Check if we've reached the maximum number of batches
+        if batchNumber > max_batches:
+            print(f"\nReached maximum number of batches ({max_batches})")
+            break
     
     print(f"\n=== Total Procedures Retrieved for Patient {patientId}: {len(allProcedures)} ===")
     return allProcedures 

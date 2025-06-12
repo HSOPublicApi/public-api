@@ -107,7 +107,7 @@ def main():
     print("This will automatically chain calls using lastId from each response")
     
     try:
-        allProcedures = patientprocedures.getAllPatientProcedures(headerData, pageSize=100)
+        allProcedures = patientprocedures.getAllPatientProcedures(headerData, pageSize=100, max_batches=10)
         print(f"✓ Successfully retrieved {len(allProcedures)} total procedures")
     except Exception as e:
         print(f"✗ Get all procedures failed: {e}")
@@ -148,7 +148,7 @@ def main():
     print("This will automatically chain calls for the patient using lastId")
     
     try:
-        allPatientProcedures = patientprocedures.getAllPatientProceduresForPatient(headerData, patientId, pageSize=500)
+        allPatientProcedures = patientprocedures.getAllPatientProceduresForPatient(headerData, patientId, pageSize=500, max_batches=10)
         print(f"✓ Successfully retrieved {len(allPatientProcedures)} procedures for patient")
     except Exception as e:
         print(f"✗ Get all patient procedures failed: {e}")
