@@ -48,3 +48,8 @@ python3 main.py
 3. To run the patient procedures examples
 ```bash
 python3 patientprocedures_example.py
+```
+4. To run the patient insurance plans example, execute the following command:
+```bash
+python3 python/rest/patientinsuranceplans_example.py
+```
