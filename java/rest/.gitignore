@@ -1,0 +1,44 @@
+# Maven build artifacts
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# Logs
+*.log
+logs/
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Environment files containing secrets
+.env
+.env.*
+!.env.example
+
+# Build directories
+build/
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Spring Boot
+spring-boot-*.pid
+
+# Test files with secrets
+src/test/resources/application-test.properties 
