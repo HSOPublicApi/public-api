@@ -1,9 +1,12 @@
 import requests
 import json
 
-baseUrl = "https://prod.hs1api.com" # Henry Schein One base URL
+# Henry Schein One base URL
+# https://test.hs1api.com is the sandbox environment
+# https://prod.hs1api.com is the production environment
+baseUrl = "https://test.hs1api.com" 
 
-patientId = "1234"; # Replace 1234 with a patient ID
+patientId = "1234"; 
 organizationId = "1234" # Replace 1234 with your organization ID
 
 # THESE VALUES SHOULD BE KEPT SECRET!
