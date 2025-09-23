@@ -155,4 +155,56 @@ def getAllPatientProceduresForPatient(headerData, patientId, pageSize=500, max_b
             break
     
     print(f"\n=== Total Procedures Retrieved for Patient {patientId}: {len(allProcedures)} ===")
-    return allProcedures 
+    return allProcedures
+
+def getPatientProceduresWithResponseFields(headerData, responseFields, pageSize=100, lastId=None):
+    """
+    Get patient procedures with specific response fields using cursor-based pagination
+    """
+    url = util.baseUrl + "/v1/patientprocedures"
+    params = {
+        "pageSize": pageSize,
+        "responseFields": ",".join(responseFields)
+    }
+    
+    # Add lastId parameter if provided (for subsequent calls)
+    if lastId:
+        params["lastId"] = lastId
+        
+    response = requests.get(url, params=params, headers=headerData)
+    
+    # Create a descriptive label for the response
+    fields_str = ",".join(responseFields)
+    if lastId:
+        util.printResponse(f"getPatientProceduresWithResponseFields (fields: {fields_str}, after ID {lastId})", response)
+    else:
+        util.printResponse(f"getPatientProceduresWithResponseFields (fields: {fields_str}, first batch)", response)
+        
+    return response.json()
+
+def getPatientProceduresByPatientIdWithResponseFields(headerData, patientId, responseFields, pageSize=100, lastId=None):
+    """
+    Get patient procedures for a specific patient with specific response fields using cursor-based pagination
+    """
+    print(f"\n=== Getting Patient Procedures for Patient ID: {patientId} with Response Fields ===")
+    url = util.baseUrl + "/v1/patientprocedures"
+    params = {
+        "filter": f"patient.id=={patientId}",
+        "pageSize": pageSize,
+        "responseFields": ",".join(responseFields)
+    }
+    
+    # Add lastId parameter if provided
+    if lastId:
+        params["lastId"] = lastId
+        
+    response = requests.get(url, params=params, headers=headerData)
+    
+    # Create descriptive label for response
+    fields_str = ",".join(responseFields)
+    if lastId:
+        util.printResponse(f"getPatientProceduresByPatientIdWithResponseFields ({patientId}, fields: {fields_str}, after ID {lastId})", response)
+    else:
+        util.printResponse(f"getPatientProceduresByPatientIdWithResponseFields ({patientId}, fields: {fields_str}, first batch)", response)
+        
+    return response.json() 

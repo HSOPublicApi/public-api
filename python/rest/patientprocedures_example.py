@@ -154,6 +154,99 @@ def main():
         print(f"✗ Get all patient procedures failed: {e}")
         print("This is expected if the patient has no procedures")
 
+    # Example 7: Get patient procedures with specific response fields (including procedureTeeth)
+    print("\n" + "-"*50)
+    print("EXAMPLE 7: Response Fields - Including procedureTeeth")
+    print("-"*50)
+    print("URL: /v1/patientprocedures?pageSize=5&responseFields=id,patient,procedureTeeth,status")
+    
+    try:
+        # Define response fields that include procedureTeeth
+        responseFieldsWithTeeth = ["id", "patient", "procedureTeeth", "status", "amount", "notes"]
+        proceduresWithTeeth = patientprocedures.getPatientProceduresWithResponseFields(
+            headerData, 
+            responseFieldsWithTeeth, 
+            pageSize=5
+        )
+        print("✓ Response fields request (with procedureTeeth) successful")
+        
+        # Show what fields are actually returned
+        if proceduresWithTeeth.get("data") and len(proceduresWithTeeth["data"]) > 0:
+            sampleProcedure = proceduresWithTeeth["data"][0]
+            print(f"Sample procedure fields returned: {list(sampleProcedure.keys())}")
+            if "procedureTeeth" in sampleProcedure:
+                print(f"✓ procedureTeeth field is present: {sampleProcedure['procedureTeeth']}")
+            else:
+                print("✗ procedureTeeth field is missing (unexpected)")
+        else:
+            print("No data returned to verify field structure")
+            
+    except Exception as e:
+        print(f"✗ Response fields request (with procedureTeeth) failed: {e}")
+    
+    # Example 8: Get patient procedures with specific response fields (excluding procedureTeeth)
+    print("\n" + "-"*50)
+    print("EXAMPLE 8: Response Fields - Excluding procedureTeeth")
+    print("-"*50)
+    print("URL: /v1/patientprocedures?pageSize=5&responseFields=id,patient,status,amount")
+    
+    try:
+        # Define response fields that exclude procedureTeeth
+        responseFieldsWithoutTeeth = ["id", "patient", "status", "amount", "notes", "serviceDate"]
+        proceduresWithoutTeeth = patientprocedures.getPatientProceduresWithResponseFields(
+            headerData, 
+            responseFieldsWithoutTeeth, 
+            pageSize=5
+        )
+        print("✓ Response fields request (without procedureTeeth) successful")
+        
+        # Show what fields are actually returned
+        if proceduresWithoutTeeth.get("data") and len(proceduresWithoutTeeth["data"]) > 0:
+            sampleProcedure = proceduresWithoutTeeth["data"][0]
+            print(f"Sample procedure fields returned: {list(sampleProcedure.keys())}")
+            if "procedureTeeth" in sampleProcedure:
+                print("✗ procedureTeeth field is present (unexpected - should be excluded)")
+            else:
+                print("✓ procedureTeeth field is correctly excluded")
+        else:
+            print("No data returned to verify field structure")
+            
+    except Exception as e:
+        print(f"✗ Response fields request (without procedureTeeth) failed: {e}")
+    
+    # Example 9: Get patient procedures for specific patient with response fields
+    print("\n" + "-"*50)
+    print("EXAMPLE 9: Patient-Specific Response Fields")
+    print("-"*50)
+    print(f"URL: /v1/patientprocedures?filter=patient.id=={patientId}&pageSize=3&responseFields=id,patient,procedureTeeth,status")
+    
+    try:
+        # Define response fields for patient-specific request
+        patientResponseFields = ["id", "patient", "procedureTeeth", "status", "amount", "notes", "serviceDate"]
+        patientProceduresWithFields = patientprocedures.getPatientProceduresByPatientIdWithResponseFields(
+            headerData, 
+            patientId, 
+            patientResponseFields, 
+            pageSize=3
+        )
+        print("✓ Patient-specific response fields request successful")
+        
+        # Show what fields are actually returned
+        if patientProceduresWithFields.get("data") and len(patientProceduresWithFields["data"]) > 0:
+            sampleProcedure = patientProceduresWithFields["data"][0]
+            print(f"Sample patient procedure fields returned: {list(sampleProcedure.keys())}")
+            print(f"Patient ID in response: {sampleProcedure.get('patient', {}).get('id', 'N/A')}")
+            if "procedureTeeth" in sampleProcedure:
+                print(f"✓ procedureTeeth field is present: {sampleProcedure['procedureTeeth']}")
+            else:
+                print("✗ procedureTeeth field is missing")
+        else:
+            print("No data returned to verify field structure")
+            
+    except Exception as e:
+        print(f"✗ Patient-specific response fields request failed: {e}")
+        print("This is expected if the patient has no procedures")
+
     print("\n" + "="*70)
     print("CURSOR-BASED PAGINATION PATTERN SUMMARY:")
     print("="*70)
@@ -164,6 +257,7 @@ def main():
     print("3. Next call: /v1/patientprocedures?pageSize=N&lastId=123456789")
     print("4. Repeat until you get fewer results than pageSize")
     print("5. Works with filters too: add &filter=... to any call")
+    print("6. Use responseFields to limit returned data: add &responseFields=field1,field2,...")
     print("="*70)
     print("PATIENT PROCEDURES CURSOR PAGINATION EXAMPLES COMPLETED")
     print("="*70)
