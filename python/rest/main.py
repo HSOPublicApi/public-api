@@ -12,24 +12,10 @@ organizationId = "1234" # Replace 1234 with your organization ID
 clientId = "<clientId>" # Replace <clientId> with your client ID
 clientSecret = "<clientSecret>" # Replace <clientSecret> with your client secret
 
-# You can uncomment printResponse to see the access token response
-def getAccessToken():
-    url = "https://prod.hs1api.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
-    headerData = {"Content-Type": "application/x-www-form-urlencoded"}
-    body = {
-        "client_id": clientId,
-        "client_secret": clientSecret
-    }
-    response = requests.post(url, data=body, headers=headerData)
-    util.printResponse("getAccessToken", response)
-    responseJSON = response.json()
-
-    return responseJSON["token_type"] + " " + responseJSON["access_token"]
-
 
 def init():
     # Get access token
-    accessToken = getAccessToken()
+    accessToken = util.getAccessToken(clientId, clientSecret)
     # Create header data with access token and organization id
     headerData = {
         "Authorization": accessToken,

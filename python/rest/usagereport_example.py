@@ -12,23 +12,6 @@ clientId = "<clientId>" # Replace <clientId> with your client ID
 clientSecret = "<clientSecret>" # Replace <clientSecret> with your client secret
 
 
-def getAccessToken():
-    url = "https://prod.hs1api.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
-    headerData = {"Content-Type": "application/x-www-form-urlencoded"}
-    body = {
-        "client_id": clientId,
-        "client_secret": clientSecret
-    }
-    response = requests.post(url, data=body, headers=headerData)
-    util.printResponse("getAccessToken", response)
-    
-    if response.status_code != 200:
-        raise Exception(f"Authentication failed: {response.status_code}. Please check your clientId and clientSecret.")
-    
-    responseJSON = response.json()
-    return responseJSON["token_type"] + " " + responseJSON["access_token"]
-
-
 def getUsageReport(headerData):
     """
     Get usage report with default behavior (no parameters)
@@ -51,16 +34,19 @@ def main():
     
     try:
         # Get access token
-        accessToken = getAccessToken()
+        accessToken = util.getAccessToken(clientId, clientSecret)
     except Exception as e:
         print(f"\n✗ Authentication failed: {e}")
         print("Please verify your clientId and clientSecret are correct.")
         return
     
+    # Get organization ID (loads from config.py if placeholder is used)
+    orgId = util.getOrganizationId(organizationId)
+    
     # Create header data with access token and organization id
     headerData = {
         "Authorization": accessToken,
-        "Organization-ID": organizationId,
+        "Organization-ID": orgId,
         "Content-Type": "application/json"
     }
 
