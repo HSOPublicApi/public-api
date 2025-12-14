@@ -4,12 +4,12 @@ import asyncio
 import requests
 from aio_pika import connect_robust
 from aio_pika.abc import AbstractIncomingMessage
+import util
 
-#baseUrl = "https://prod.hs1api.com" # Henry Schein One Prod base URL
-baseUrl = "https://test.hs1api.com" # Henry Schein One Testbase URL
-
-# THESE VALUES SHOULD BE KEPT SECRET!
-# Move them to a protected file and don't push them up to a repository
+# Load configuration from config.py via util module
+baseUrl = util.baseUrl  # Henry Schein One base URL (test or prod based on config)
+clientId = util.getClientId()
+clientSecret = util.getClientSecret()
 
 def printResponse(requestName, response):
     print()
@@ -57,7 +57,7 @@ async def messageCallback(message: AbstractIncomingMessage) -> None:
 async def connectToStreamingApi(loop):
     try:
         if clientId == "<clientId>" or clientSecret == "<clientSecret>":
-            print("Please replace <clientId> and <clientSecret> at the top of main.py")
+            print("Please create config.py from config.py.example and fill in your clientId and clientSecret")
             loop.stop()
             return
 
