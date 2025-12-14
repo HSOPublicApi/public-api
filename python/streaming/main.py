@@ -5,12 +5,9 @@ import requests
 from aio_pika import connect_robust
 from aio_pika.abc import AbstractIncomingMessage
 
-baseUrl = "https://prod.hs1api.com" # Henry Schein One base URL
 
 # THESE VALUES SHOULD BE KEPT SECRET!
 # Move them to a protected file and don't push them up to a repository
-clientId = "<clientId>" # Replace <clientId> with your client ID
-clientSecret = "<clientSecret>" # Replace <clientSecret> with your client secret
 
 def printResponse(requestName, response):
     print()
@@ -26,7 +23,6 @@ def getAccessToken():
         "client_secret": clientSecret
     }
     response = requests.post(url, data = body, headers = headerData)
-    # printResponse("getAccessToken", response)
     responseJSON = response.json()
 
     return responseJSON["token_type"] + " " + responseJSON["access_token"]
@@ -39,7 +35,6 @@ def getStreamApiInfo(bearerToken):
     }
     response = requests.get(url, headers = headerData)
     response.encoding = "utf-8"
-    # printResponse("getStreamApiInfo", response)
 
     return response.json()
 
@@ -63,8 +58,25 @@ async def connectToStreamingApi(loop):
             return
 
         # Authentication
+        print("Step 1: Getting access token...")
         bearerToken = getAccessToken()
+        print(f"✓ Access token obtained: {bearerToken[:20]}...")
+        
+        print("\nStep 2: Getting streaming API info...")
         streamApiInfo = getStreamApiInfo(bearerToken)
+        print(f"✓ API response received. Keys in response: {list(streamApiInfo.keys())}")
+        print(f"Full response: {json.dumps(streamApiInfo, indent=2)}")
+        
+        # Check if the response has the expected structure
+        if "url" not in streamApiInfo:
+            print("\n❌ ERROR: The API response doesn't contain a 'url' key!")
+            print("This might indicate:")
+            print("  - Authentication failed (check your clientId and clientSecret)")
+            print("  - API endpoint changed")
+            print("  - Network/API issue")
+            print(f"\nFull response received: {json.dumps(streamApiInfo, indent=2)}")
+            loop.stop()
+            return
 
         # Define connection parameters using the connection string
         url = streamApiInfo["url"]

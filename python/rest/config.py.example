@@ -2,6 +2,7 @@
 # Copy this file to config.py and fill in your actual values
 # DO NOT commit config.py to version control!
 
+environment = "test"  # Use "test" for sandbox or "prod" for production
 organizationId = "<organizationId>"  # Replace with your organization ID
 clientId = "<clientId>"              # Replace with your client ID
 clientSecret = "<clientSecret>"      # Replace with your client secret

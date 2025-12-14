@@ -1,8 +1,6 @@
 import json
 import requests
 
-baseUrl = "https://prod.hs1api.com/ascend-gateway/api" # Henry Schein One base URL
-
 def _is_placeholder(value):
     """Check if a value is a placeholder that needs to be replaced"""
     if not value or not isinstance(value, str):
@@ -29,6 +27,24 @@ def _get_config_value(key, default=None):
     except Exception:
         # Any other error, return default
         return default
+
+def _get_base_url():
+    """Get the base URL based on environment setting from config.py"""
+    environment = _get_config_value("environment", "test")
+    if environment == "prod":
+        return "https://prod.hs1api.com/ascend-gateway/api"
+    else:
+        return "https://test.hs1api.com/ascend-gateway/api"
+
+def _get_oauth_url():
+    """Get the OAuth URL based on environment setting from config.py"""
+    environment = _get_config_value("environment", "test")
+    if environment == "prod":
+        return "https://prod.hs1api.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+    else:
+        return "https://test.hs1api.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+
+baseUrl = _get_base_url() # Henry Schein One base URL
 
 def getConfigValue(value, configKey):
     """
@@ -73,7 +89,7 @@ def getAccessToken(clientId, clientSecret):
     clientId = getConfigValue(clientId, "clientId")
     clientSecret = getConfigValue(clientSecret, "clientSecret")
     
-    url = "https://prod.hs1api.com/oauth/client_credential/accesstoken?grant_type=client_credentials"
+    url = _get_oauth_url()
     headerData = {"Content-Type": "application/x-www-form-urlencoded"}
     body = {
         "client_id": clientId,

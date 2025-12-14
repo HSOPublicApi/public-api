@@ -11,12 +11,21 @@ To avoid hardcoding credentials in multiple files, you can use a shared `config.
 
 2. Edit `config.py` and fill in your actual credentials:
    ```python
+   environment = "test"  # Use "test" for sandbox or "prod" for production
    organizationId = "your-org-id-here"
    clientId = "your-client-id-here"
    clientSecret = "your-client-secret-here"
    ```
 
 3. In your Python scripts, use placeholders like `<clientId>`, `<clientSecret>`, or `<organizationId>`. The `util.py` functions will automatically load the values from `config.py` if placeholders are detected.
+
+## Environment Configuration
+
+The `environment` variable in `config.py` controls which API environment to use:
+- `"test"` - Uses the sandbox/test environment (`https://test.hs1api.com`)
+- `"prod"` - Uses the production environment (`https://prod.hs1api.com`)
+
+This setting affects both the base URL for API calls and the OAuth token endpoint.
 
 ## Example Usage
 
@@ -30,6 +39,7 @@ clientId = "<clientId>"              # Will load from config.py
 clientSecret = "<clientSecret>"       # Will load from config.py
 
 # These will automatically use values from config.py
+# The base URL will be set based on the environment in config.py
 accessToken = util.getAccessToken(clientId, clientSecret)
 orgId = util.getOrganizationId(organizationId)
 ```
