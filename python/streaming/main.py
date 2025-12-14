@@ -5,6 +5,8 @@ import requests
 from aio_pika import connect_robust
 from aio_pika.abc import AbstractIncomingMessage
 
+#baseUrl = "https://prod.hs1api.com" # Henry Schein One Prod base URL
+baseUrl = "https://test.hs1api.com" # Henry Schein One Testbase URL
 
 # THESE VALUES SHOULD BE KEPT SECRET!
 # Move them to a protected file and don't push them up to a repository
@@ -23,6 +25,7 @@ def getAccessToken():
         "client_secret": clientSecret
     }
     response = requests.post(url, data = body, headers = headerData)
+    printResponse("getAccessToken", response)
     responseJSON = response.json()
 
     return responseJSON["token_type"] + " " + responseJSON["access_token"]
@@ -35,6 +38,7 @@ def getStreamApiInfo(bearerToken):
     }
     response = requests.get(url, headers = headerData)
     response.encoding = "utf-8"
+    printResponse("getStreamApiInfo", response)
 
     return response.json()
 
