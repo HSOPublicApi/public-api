@@ -15,11 +15,14 @@ python3 --version
 ```
 
 ## Starting the application for the first time:
-1. Replace $${\color{orange}clientId}$$ and $${\color{orange}clientSecret}$$ with your organizations values
-  * The values you need to replace can be found near the top of main.py
+1. Create config.py from the example (if it doesn't exist) and replace the following values:
+  * $${\color{orange}environment}$$ - Set to "test" for sandbox or "prod" for production
+  * $${\color{orange}organizationId}$$ - Replace with your organization ID
+  * $${\color{orange}patientId}$$ - Replace with your patient ID
+  * $${\color{orange}clientId}$$ - Replace with your client ID
+  * $${\color{orange}clientSecret}$$ - Replace with your client secret
   * $${\color{orange}THESE \space VALUES \space SHOULD \space BE \space KEPT \space SECRET!}$$
-  * If you copy this code, these values should be moved to a protected file that is included in your .gitignore
-2. Also replace organizationId and patientId with you own values.
+  * The config.py file is already included in .gitignore to prevent committing sensitive information
 3. Create venv
 ```bash
 python3 -m venv venv
